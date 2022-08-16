@@ -14,6 +14,21 @@ class TarefaPageList {
                 const novacelula = novaLinha.insertCell();
                 novacelula.innerText = valor;
             });
+            this.criarBotaoEditar(novaLinha);
+        });
+    }
+    criarBotaoEditar(novaLinha) {
+        const celulaBotoes = novaLinha.insertCell();
+        const btnEditar = document.createElement("a");
+        btnEditar.innerText = "Editar";
+        btnEditar.className = "btn btn-outline-success";
+        this.obterIdTarefa(btnEditar, novaLinha);
+        celulaBotoes.appendChild(btnEditar);
+    }
+    obterIdTarefa(btnEditar, novaLinha) {
+        btnEditar.addEventListener("click", () => {
+            const idSelecionado = novaLinha.cells[0].innerText;
+            window.location.href = `tarefa.create.htlml?id=${idSelecionado}`;
         });
     }
     configurarElementos() {

@@ -1,5 +1,6 @@
-import { IRepositorioSerializavel } from "../interfaces/repositorio-serializavel.interface";
-import { IRepositorio } from "../interfaces/repositorio.interface";
+import { Guid } from "../guid.model.js";
+import { IRepositorioSerializavel } from "../interfaces/repositorio-serializavel.interface.js";
+import { IRepositorio } from "../interfaces/repositorio.interface.js";
 import { Tarefa } from "./tarefa.model.js";
 
 export class TarefaRepositoryLocalStorage implements IRepositorio<Tarefa>, IRepositorioSerializavel 
@@ -16,12 +17,27 @@ export class TarefaRepositoryLocalStorage implements IRepositorio<Tarefa>, IRepo
       this.tarefas = this.selecionarTodos();
    }
 
+   public editar(id: string, registroEditado: Tarefa): void {
+      const indexSelecionado = this.tarefas.findIndex(x => x.id === id);
+
+      this.tarefas[indexSelecionado] = {
+         id: id,
+         titulo: registroEditado.titulo,
+         dataCriacao: registroEditado.dataCriacao,
+         dataConclusao: registroEditado.dataConclusao,
+         prioridade: registroEditado.prioridade
+      };
+
+      this.gravar();
+   }
+
    public gravar(): void {
       const dadosJson = JSON.stringify(this.tarefas);
       this.localStorage.setItem("tarefas", dadosJson);
    }
 
    public inserir(dados: Tarefa): void {
+      dados.id = new Guid().gerarNovoID();
       this.tarefas.push(dados);
       this.gravar();
    }
@@ -38,6 +54,10 @@ export class TarefaRepositoryLocalStorage implements IRepositorio<Tarefa>, IRepo
          return [];
 
       return JSON.parse(dadosJson);
+   }
+
+   public selecionarPorId(id: string): Tarefa | undefined{
+      return this.tarefas.find(x => x.id === id);
    }
 
 }

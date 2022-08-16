@@ -31,6 +31,27 @@ class TarefaPageList implements IPaginaHTML, IPageList {
                novacelula.innerText = valor;
             }
          );
+
+         this.criarBotaoEditar(novaLinha);
+
+      });
+   }
+
+   private criarBotaoEditar(novaLinha: HTMLTableRowElement) {
+      const celulaBotoes = novaLinha.insertCell();
+      const btnEditar = document.createElement("a");
+      btnEditar.innerText = "Editar";
+      btnEditar.className = "btn btn-outline-success";
+
+      this.obterIdTarefa(btnEditar, novaLinha);
+
+      celulaBotoes.appendChild(btnEditar);
+   }
+
+   private obterIdTarefa(btnEditar: HTMLAnchorElement, novaLinha: HTMLTableRowElement) {
+      btnEditar.addEventListener("click", () => {
+         const idSelecionado = novaLinha.cells[0].innerText;
+         window.location.href = `tarefa.create.htlml?id=${idSelecionado}`;
       });
    }
 
