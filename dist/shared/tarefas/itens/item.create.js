@@ -10,9 +10,9 @@ export class ItemPaginaCadastro {
         this.txtDescricao = document.getElementById("txtDescricao");
         this.selectTarefa = document.getElementById("selectTarefa");
         this.btnSalvar = document.getElementById("btnSalvar");
-        const option = document.createElement("option");
-        const contato = new TarefaRepositoryLocalStorage().selecionarTodos();
-        contato.forEach(x => {
+        const tarefa = new TarefaRepositoryLocalStorage().selecionarTodos();
+        tarefa.forEach((x) => {
+            const option = document.createElement("option");
             option.innerText = x.titulo;
             this.selectTarefa.appendChild(option);
         });

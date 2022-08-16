@@ -26,10 +26,10 @@ export class CompromissoPaginaCadastro implements IPaginaHTML, IPaginaFormulario
       this.btnSalvar = document.getElementById("btnSalvar") as HTMLButtonElement;
       this.selectContato = document.getElementById("contatos") as HTMLSelectElement;
 
-      const option = document.createElement("option");
       const contato = new ContatoRepositoryLocalStorage().selecionarTodos();
-
-      contato.forEach(x => {
+      
+      contato.forEach( (x) => {
+         const option = document.createElement("option");
          option.innerText = x.nome;
          this.selectContato.appendChild(option);
       });

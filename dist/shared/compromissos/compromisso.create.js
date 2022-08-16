@@ -13,9 +13,9 @@ export class CompromissoPaginaCadastro {
         this.txtHora = document.getElementById("txtHora");
         this.btnSalvar = document.getElementById("btnSalvar");
         this.selectContato = document.getElementById("contatos");
-        const option = document.createElement("option");
         const contato = new ContatoRepositoryLocalStorage().selecionarTodos();
-        contato.forEach(x => {
+        contato.forEach((x) => {
+            const option = document.createElement("option");
             option.innerText = x.nome;
             this.selectContato.appendChild(option);
         });
