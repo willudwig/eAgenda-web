@@ -5,7 +5,7 @@ import { Contato } from "./contato.model.js";
 export class ContatoRepositoryLocalStorage implements IRepositorio<Contato>, IRepositorioSerializavel 
 {
    private readonly localStorage: Storage;
-   private readonly contatos: Contato[];
+   private contatos: Contato[];
 
    /**
     *
@@ -15,11 +15,22 @@ export class ContatoRepositoryLocalStorage implements IRepositorio<Contato>, IRe
       this.localStorage = window.localStorage; 
       this.contatos = this.selecionarTodos();
    }
+
    editar(id: string, registroEditado: Contato): void {
-      throw new Error("Method not implemented.");
+      const indexSelecionado = this.contatos.findIndex(x => x.id === id);
+
+      this.contatos[indexSelecionado] = {
+         id: id,
+         nome: registroEditado.nome,
+         email: registroEditado.email,
+         telefone: registroEditado.telefone,
+         empresa: registroEditado.empresa,
+         cargo: registroEditado.cargo
+      };
    }
+
    selecionarPorId(id: string): Contato | undefined {
-      throw new Error("Method not implemented.");
+      return this.contatos.find(x => x.id === id);
    }
 
    public gravar(): void {
@@ -32,12 +43,12 @@ export class ContatoRepositoryLocalStorage implements IRepositorio<Contato>, IRe
       this.gravar();
    }
 
-   public excluir(): void {
-      throw new Error("Method not implemented.");
+   public excluir(id: string): void {
+      this.contatos = this.contatos.filter(x => x.id !== id); 
+      this.gravar();
    }
 
    public selecionarTodos(): Contato[] {
-
       const dadosJson = this.localStorage.getItem("contatos");
 
       if( !dadosJson )

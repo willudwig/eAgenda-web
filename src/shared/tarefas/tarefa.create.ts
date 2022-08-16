@@ -23,7 +23,6 @@ export class TarefaPaginaCadastro implements IPaginaHTML, IPaginaFormulario
             this.preencherFormulario(tarefaSelecionada);
          }
       } 
-
    }
 
    private preencherFormulario(tarefaSelecionada: Tarefa){
@@ -55,7 +54,7 @@ export class TarefaPaginaCadastro implements IPaginaHTML, IPaginaFormulario
       if (!this.idSelecionado)
          tarefa = new Tarefa(titulo, prioridade);
       else
-      tarefa = new Tarefa(titulo, prioridade, this.idSelecionado);
+         tarefa = new Tarefa(titulo, prioridade, this.idSelecionado);
 
       return tarefa;
    }

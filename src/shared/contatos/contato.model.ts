@@ -11,7 +11,7 @@ export class Contato extends EntidadeBase
    /**
     *
     */
-   constructor(nome: string, email: string, telefone: string, empresa: string, cargo: string) {
+   constructor(nome: string, email: string, telefone: string, empresa: string, cargo: string, id?:string) {
       super();
       this.nome = nome;
       this.email = email;

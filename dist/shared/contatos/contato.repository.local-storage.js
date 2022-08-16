@@ -7,10 +7,18 @@ export class ContatoRepositoryLocalStorage {
         this.contatos = this.selecionarTodos();
     }
     editar(id, registroEditado) {
-        throw new Error("Method not implemented.");
+        const indexSelecionado = this.contatos.findIndex(x => x.id === id);
+        this.contatos[indexSelecionado] = {
+            id: id,
+            nome: registroEditado.nome,
+            email: registroEditado.email,
+            telefone: registroEditado.telefone,
+            empresa: registroEditado.empresa,
+            cargo: registroEditado.cargo
+        };
     }
     selecionarPorId(id) {
-        throw new Error("Method not implemented.");
+        return this.contatos.find(x => x.id === id);
     }
     gravar() {
         const dadosJson = JSON.stringify(this.contatos);
@@ -20,8 +28,9 @@ export class ContatoRepositoryLocalStorage {
         this.contatos.push(dados);
         this.gravar();
     }
-    excluir() {
-        throw new Error("Method not implemented.");
+    excluir(id) {
+        this.contatos = this.contatos.filter(x => x.id !== id);
+        this.gravar();
     }
     selecionarTodos() {
         const dadosJson = this.localStorage.getItem("contatos");

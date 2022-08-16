@@ -1,4 +1,3 @@
-import { Guid } from "../guid.model.js";
 import { IRepositorioSerializavel } from "../interfaces/repositorio-serializavel.interface.js";
 import { IRepositorio } from "../interfaces/repositorio.interface.js";
 import { Tarefa } from "./tarefa.model.js";
@@ -47,7 +46,6 @@ export class TarefaRepositoryLocalStorage implements IRepositorio<Tarefa>, IRepo
    }
 
    public selecionarTodos(): Tarefa[] {
-
       const dadosJson = this.localStorage.getItem("tarefas");
 
       if( !dadosJson )
