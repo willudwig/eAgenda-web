@@ -6,6 +6,12 @@ export class CompromissoRepositoryLocalStorage {
         this.localStorage = window.localStorage;
         this.compromissos = this.selecionarTodos();
     }
+    editar(id, registroEditado) {
+        throw new Error("Method not implemented.");
+    }
+    selecionarPorId(id) {
+        throw new Error("Method not implemented.");
+    }
     gravar() {
         const dadosJson = JSON.stringify(this.compromissos);
         this.localStorage.setItem("compromissos", dadosJson);

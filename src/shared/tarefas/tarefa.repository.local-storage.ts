@@ -6,7 +6,7 @@ import { Tarefa } from "./tarefa.model.js";
 export class TarefaRepositoryLocalStorage implements IRepositorio<Tarefa>, IRepositorioSerializavel 
 {
    private readonly localStorage: Storage;
-   private readonly tarefas: Tarefa[];
+   private tarefas: Tarefa[];
 
    /**
     *
@@ -37,13 +37,13 @@ export class TarefaRepositoryLocalStorage implements IRepositorio<Tarefa>, IRepo
    }
 
    public inserir(dados: Tarefa): void {
-      dados.id = new Guid().gerarNovoID();
       this.tarefas.push(dados);
       this.gravar();
    }
 
-   public excluir(): void {
-      throw new Error("Method not implemented.");
+   public excluir(id: string): void {
+      this.tarefas = this.tarefas.filter(x => x.id !== id); 
+      this.gravar();
    }
 
    public selecionarTodos(): Tarefa[] {

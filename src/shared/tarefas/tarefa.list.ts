@@ -23,36 +23,42 @@ class TarefaPageList implements IPaginaHTML, IPageList {
 
          const novaLinha = corpoTabela.insertRow();
 
-         Object.values(tarefa).forEach(
-
-            (valor: any) => {
-
+         Object.values(tarefa).forEach( (valor: any) => {
                const novacelula = novaLinha.insertCell();
                novacelula.innerText = valor;
             }
          );
 
-         this.criarBotaoEditar(novaLinha);
-
+         this.criarBotaoEditar(novaLinha, tarefa);
+         this.criarBotaoExcluir(novaLinha, tarefa);
       });
    }
 
-   private criarBotaoEditar(novaLinha: HTMLTableRowElement) {
+   private criarBotaoEditar(novaLinha: HTMLTableRowElement, tarefa: Tarefa) {
       const celulaBotoes = novaLinha.insertCell();
       const btnEditar = document.createElement("a");
       btnEditar.innerText = "Editar";
       btnEditar.className = "btn btn-outline-success";
 
-      this.obterIdTarefa(btnEditar, novaLinha);
+      btnEditar.addEventListener("click", () => {
+         window.location.href = `tarefa.create.html?id=${tarefa.id}`;
+      });
 
       celulaBotoes.appendChild(btnEditar);
    }
 
-   private obterIdTarefa(btnEditar: HTMLAnchorElement, novaLinha: HTMLTableRowElement) {
-      btnEditar.addEventListener("click", () => {
-         const idSelecionado = novaLinha.cells[0].innerText;
-         window.location.href = `tarefa.create.htlml?id=${idSelecionado}`;
+   private criarBotaoExcluir(novaLinha: HTMLTableRowElement, tarefa: Tarefa) {
+      const celulaBotoes = novaLinha.insertCell();
+      const btnExcluir = document.createElement("a");
+      btnExcluir.innerText = "Excluir";
+      btnExcluir.className = "btn btn-outline-info";
+
+      btnExcluir.addEventListener("click", () => {
+         this.repositrorioTarefas.excluir(tarefa.id);
+         window.location.reload();
       });
+
+      celulaBotoes.appendChild(btnExcluir);
    }
 
    configurarElementos(): void {

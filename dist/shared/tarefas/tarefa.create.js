@@ -1,5 +1,5 @@
 import { Tarefa } from "./tarefa.model.js";
-import { Prioridade } from "./prioridade.enum";
+import { Prioridade } from "./prioridade.enum.js";
 import { TarefaRepositoryLocalStorage } from "./tarefa.repository.local-storage.js";
 export class TarefaPaginaCadastro {
     constructor(repositorioTarefas, id) {
@@ -31,11 +31,15 @@ export class TarefaPaginaCadastro {
     obterDadosFormulario() {
         const titulo = this.txtTitulo.value;
         const prioridade = this.obterPrioridadeSelecionada();
-        const tarefa = new Tarefa(titulo, prioridade);
-        tarefa.id = this.idSelecionado;
+        let tarefa = null;
+        if (!this.idSelecionado)
+            tarefa = new Tarefa(titulo, prioridade);
+        else
+            tarefa = new Tarefa(titulo, prioridade, this.idSelecionado);
+        return tarefa;
     }
     obterPrioridadeSelecionada() {
-        const rdbPrioridade = document.querySelector("input[value='Alta']");
+        const rdbPrioridade = document.querySelector("input[type='radio']:checked");
         return rdbPrioridade.value;
     }
     configurarElementos() {
@@ -45,7 +49,7 @@ export class TarefaPaginaCadastro {
     }
     gravarRegistros() {
         const tarefa = this.obterDadosFormulario();
-        if (!tarefa.id)
+        if (!this.idSelecionado)
             this.repositorioTarefas.inserir(tarefa);
         else
             this.repositorioTarefas.editar(tarefa.id, tarefa);
@@ -54,4 +58,4 @@ export class TarefaPaginaCadastro {
 }
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
-new TarefaPaginaCadastro(new TarefaRepositoryLocalStorage());
+new TarefaPaginaCadastro(new TarefaRepositoryLocalStorage(), id);

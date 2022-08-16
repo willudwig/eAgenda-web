@@ -1,5 +1,5 @@
 import { Tarefa } from "./tarefa.model.js";
-import { Prioridade } from "./prioridade.enum";
+import { Prioridade } from "./prioridade.enum.js";
 import { IPaginaHTML } from "../interfaces/pagina.html.interface.js";
 import { IRepositorio } from "../interfaces/repositorio.interface.js";
 import { IPaginaFormulario } from "../interfaces/pagina.ceate.interface.js";
@@ -50,13 +50,18 @@ export class TarefaPaginaCadastro implements IPaginaHTML, IPaginaFormulario
       const titulo = this.txtTitulo.value;
       const prioridade = this.obterPrioridadeSelecionada();
 
-      const tarefa = new Tarefa(titulo, prioridade);
-      tarefa.id = this.idSelecionado;
+      let tarefa = null;
 
+      if (!this.idSelecionado)
+         tarefa = new Tarefa(titulo, prioridade);
+      else
+      tarefa = new Tarefa(titulo, prioridade, this.idSelecionado);
+
+      return tarefa;
    }
 
    private obterPrioridadeSelecionada(): Prioridade {
-      const rdbPrioridade = document.querySelector("input[value='Alta']") as HTMLInputElement;
+      const rdbPrioridade = document.querySelector("input[type='radio']:checked") as HTMLInputElement;
       return rdbPrioridade.value as Prioridade;
    }
 
@@ -70,7 +75,7 @@ export class TarefaPaginaCadastro implements IPaginaHTML, IPaginaFormulario
    gravarRegistros(): void {
       const tarefa = this.obterDadosFormulario();
 
-      if(!tarefa.id)
+      if(!this.idSelecionado)
          this.repositorioTarefas.inserir(tarefa);
       else
          this.repositorioTarefas.editar(tarefa.id, tarefa);
@@ -83,4 +88,4 @@ export class TarefaPaginaCadastro implements IPaginaHTML, IPaginaFormulario
 const params = new URLSearchParams(window.location.search); 
 const id = params.get("id") as string;
 
-new TarefaPaginaCadastro(new TarefaRepositoryLocalStorage());
+new TarefaPaginaCadastro(new TarefaRepositoryLocalStorage(), id);

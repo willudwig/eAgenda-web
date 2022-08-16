@@ -6,6 +6,12 @@ export class ItemRepositoryLocalStorage {
         this.localStorage = window.localStorage;
         this.items = this.selecionarTodos();
     }
+    editar(id, registroEditado) {
+        throw new Error("Method not implemented.");
+    }
+    selecionarPorId(id) {
+        throw new Error("Method not implemented.");
+    }
     gravar() {
         const dadosJson = JSON.stringify(this.items);
         this.localStorage.setItem("items", dadosJson);
@@ -14,7 +20,7 @@ export class ItemRepositoryLocalStorage {
         this.items.push(dados);
         this.gravar();
     }
-    excluir() {
+    excluir(id) {
         throw new Error("Method not implemented.");
     }
     selecionarTodos() {

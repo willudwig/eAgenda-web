@@ -14,6 +14,12 @@ export class CompromissoRepositoryLocalStorage implements IRepositorio<Compromis
       this.localStorage = window.localStorage; 
       this.compromissos = this.selecionarTodos();
    }
+   editar(id: string, registroEditado: Compromisso): void {
+      throw new Error("Method not implemented.");
+   }
+   selecionarPorId(id: string): Compromisso | undefined {
+      throw new Error("Method not implemented.");
+   }
 
    public gravar(): void {
       const dadosJson = JSON.stringify(this.compromissos);

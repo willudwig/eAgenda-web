@@ -15,6 +15,12 @@ export class ContatoRepositoryLocalStorage implements IRepositorio<Contato>, IRe
       this.localStorage = window.localStorage; 
       this.contatos = this.selecionarTodos();
    }
+   editar(id: string, registroEditado: Contato): void {
+      throw new Error("Method not implemented.");
+   }
+   selecionarPorId(id: string): Contato | undefined {
+      throw new Error("Method not implemented.");
+   }
 
    public gravar(): void {
       const dadosJson = JSON.stringify(this.contatos);

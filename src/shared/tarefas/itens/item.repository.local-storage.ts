@@ -16,6 +16,14 @@ export class ItemRepositoryLocalStorage implements IRepositorio<Item>, IReposito
       this.items = this.selecionarTodos();
    }
 
+   editar(id: string, registroEditado: Item): void {
+      throw new Error("Method not implemented.");
+   }
+   
+   selecionarPorId(id: string): Item | undefined {
+      throw new Error("Method not implemented.");
+   }
+
    public gravar(): void {
       const dadosJson = JSON.stringify(this.items);
       this.localStorage.setItem("items", dadosJson);
@@ -26,7 +34,7 @@ export class ItemRepositoryLocalStorage implements IRepositorio<Item>, IReposito
       this.gravar();
    }
 
-   public excluir(): void {
+   public excluir(id: string): void {
       throw new Error("Method not implemented.");
    }
 

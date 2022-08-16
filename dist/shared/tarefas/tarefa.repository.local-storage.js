@@ -1,4 +1,3 @@
-import { Guid } from "../guid.model.js";
 export class TarefaRepositoryLocalStorage {
     /**
      *
@@ -23,12 +22,12 @@ export class TarefaRepositoryLocalStorage {
         this.localStorage.setItem("tarefas", dadosJson);
     }
     inserir(dados) {
-        dados.id = new Guid().gerarNovoID();
         this.tarefas.push(dados);
         this.gravar();
     }
-    excluir() {
-        throw new Error("Method not implemented.");
+    excluir(id) {
+        this.tarefas = this.tarefas.filter(x => x.id !== id);
+        this.gravar();
     }
     selecionarTodos() {
         const dadosJson = this.localStorage.getItem("tarefas");

@@ -6,6 +6,12 @@ export class ContatoRepositoryLocalStorage {
         this.localStorage = window.localStorage;
         this.contatos = this.selecionarTodos();
     }
+    editar(id, registroEditado) {
+        throw new Error("Method not implemented.");
+    }
+    selecionarPorId(id) {
+        throw new Error("Method not implemented.");
+    }
     gravar() {
         const dadosJson = JSON.stringify(this.contatos);
         this.localStorage.setItem("contatos", dadosJson);
