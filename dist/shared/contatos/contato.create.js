@@ -48,7 +48,7 @@ export class ContatoPaginaCadastro {
         this.btnSalvar.addEventListener("click", (_evt) => this.gravarRegistros());
     }
     gravarRegistros() {
-        const contato = new Contato(this.txtNome.value, this.txtEmail.value, this.txtTelefone.value, this.txtEmpresa.value, this.txtCargo.value);
+        const contato = this.obterDadosFormulario();
         if (!this.idSelecionado)
             this.repositorioContatos.inserir(contato);
         else

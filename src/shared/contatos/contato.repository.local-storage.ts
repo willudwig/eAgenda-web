@@ -27,6 +27,8 @@ export class ContatoRepositoryLocalStorage implements IRepositorio<Contato>, IRe
          empresa: registroEditado.empresa,
          cargo: registroEditado.cargo
       };
+
+      this.gravar();
    }
 
    selecionarPorId(id: string): Contato | undefined {

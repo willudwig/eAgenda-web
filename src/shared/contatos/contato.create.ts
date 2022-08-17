@@ -72,11 +72,7 @@ export class ContatoPaginaCadastro implements IPaginaHTML, IPaginaFormulario
    }
 
    gravarRegistros(): void {
-      const contato = new Contato(this.txtNome.value, 
-                                      this.txtEmail.value,
-                                      this.txtTelefone.value,
-                                      this.txtEmpresa.value,
-                                      this.txtCargo.value);
+      const contato = this.obterDadosFormulario();
 
       if(!this.idSelecionado)                                
          this.repositorioContatos.inserir(contato);

@@ -16,6 +16,7 @@ export class ContatoRepositoryLocalStorage {
             empresa: registroEditado.empresa,
             cargo: registroEditado.cargo
         };
+        this.gravar();
     }
     selecionarPorId(id) {
         return this.contatos.find(x => x.id === id);
