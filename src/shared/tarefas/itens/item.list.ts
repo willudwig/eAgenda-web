@@ -44,7 +44,7 @@ class ItemPageList implements IPaginaHTML, IPageList {
       check.className = "checkbox";
 
       check.addEventListener("click", () => {
-         this.alternarStatusCheckBox(novaLinha, check, item);
+       this.alternarStatusCheckBox(novaLinha, check, item);
       });
       
       this.verificarCheck(check, item);

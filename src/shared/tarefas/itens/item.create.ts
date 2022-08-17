@@ -52,9 +52,9 @@ export class ItemPaginaCadastro implements IPaginaHTML, IPaginaFormulario
       this.btnSalvar = document.getElementById("btnSalvar") as HTMLButtonElement;
 
       //select tarefa
-      const tarefa = new TarefaRepositoryLocalStorage().selecionarTodos();
+      const tarefas = new TarefaRepositoryLocalStorage().selecionarTodos();
       
-      tarefa.forEach((x) => {
+      tarefas.forEach((x) => {
          const option = document.createElement("option");
          option.innerText = x.titulo;
          this.selectTarefa.appendChild(option);

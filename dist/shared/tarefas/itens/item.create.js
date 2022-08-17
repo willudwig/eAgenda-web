@@ -32,8 +32,8 @@ export class ItemPaginaCadastro {
         this.selectTarefa = document.getElementById("selectTarefa");
         this.btnSalvar = document.getElementById("btnSalvar");
         //select tarefa
-        const tarefa = new TarefaRepositoryLocalStorage().selecionarTodos();
-        tarefa.forEach((x) => {
+        const tarefas = new TarefaRepositoryLocalStorage().selecionarTodos();
+        tarefas.forEach((x) => {
             const option = document.createElement("option");
             option.innerText = x.titulo;
             this.selectTarefa.appendChild(option);

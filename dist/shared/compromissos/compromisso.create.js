@@ -41,8 +41,8 @@ export class CompromissoPaginaCadastro {
         this.txtHora = document.getElementById("txtHora");
         this.btnSalvar = document.getElementById("btnSalvar");
         //adiciona os contatos no select
-        const contato = new ContatoRepositoryLocalStorage().selecionarTodos();
-        contato.forEach((x) => {
+        const contatos = new ContatoRepositoryLocalStorage().selecionarTodos();
+        contatos.forEach((x) => {
             const option = document.createElement("option");
             option.innerText = x.nome;
             this.selectContato.appendChild(option);
