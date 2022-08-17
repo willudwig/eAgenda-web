@@ -16,30 +16,30 @@ export class CompromissoPaginaCadastro {
     obterDadosFormulario() {
         const assunto = this.txtAssunto.value;
         const local = this.txtLocal.value;
+        const contato = this.selectContato.value;
         const data = this.txtData.value;
         const hora = this.txtHora.value;
-        const contato = this.selectContato.value;
         let compromisso = null;
         if (!this.idSelecionado)
-            compromisso = new Compromisso(assunto, local, data, hora, contato);
+            compromisso = new Compromisso(assunto, local, contato, data, hora);
         else
-            compromisso = new Compromisso(assunto, local, data, hora, contato, this.idSelecionado);
+            compromisso = new Compromisso(assunto, local, contato, data, hora, this.idSelecionado);
         return compromisso;
     }
-    preencherFormulario(CompromissoSelecionado) {
-        this.txtAssunto.value = CompromissoSelecionado.assunto;
-        this.txtLocal.value = CompromissoSelecionado.local;
-        this.txtData.value = CompromissoSelecionado.data;
-        this.txtHora.value = CompromissoSelecionado.hora;
-        this.selectContato.value = CompromissoSelecionado.contato;
+    preencherFormulario(compromissoSelecionado) {
+        this.txtAssunto.value = compromissoSelecionado.assunto;
+        this.txtLocal.value = compromissoSelecionado.local;
+        this.selectContato.value = compromissoSelecionado.contato;
+        this.txtData.value = compromissoSelecionado.data;
+        this.txtHora.value = compromissoSelecionado.hora;
     }
     configurarElementos() {
         this.txtAssunto = document.getElementById("txtAssunto");
         this.txtLocal = document.getElementById("txtLocal");
+        this.selectContato = document.getElementById("contatos");
         this.txtData = document.getElementById("txtData");
         this.txtHora = document.getElementById("txtHora");
         this.btnSalvar = document.getElementById("btnSalvar");
-        this.selectContato = document.getElementById("contatos");
         //adiciona os contatos no select
         const contato = new ContatoRepositoryLocalStorage().selecionarTodos();
         contato.forEach((x) => {

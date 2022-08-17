@@ -11,10 +11,10 @@ export class CompromissoRepositoryLocalStorage {
         this.compromissos[indexSelecionado] = {
             id: id,
             assunto: registroEditado.assunto,
+            local: registroEditado.local,
             contato: registroEditado.contato,
             data: registroEditado.data,
-            hora: registroEditado.hora,
-            local: registroEditado.local
+            hora: registroEditado.hora
         };
         this.gravar();
     }

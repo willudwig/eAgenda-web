@@ -9,10 +9,10 @@ export class CompromissoPaginaCadastro implements IPaginaHTML, IPaginaFormulario
 {
    private txtAssunto: HTMLInputElement;
    private txtLocal: HTMLInputElement;
+   private selectContato: HTMLSelectElement;
    private txtData: HTMLInputElement;
    private txtHora: HTMLInputElement;
    private btnSalvar: HTMLButtonElement;
-   private selectContato: HTMLSelectElement;
    private idSelecionado: string;
 
    constructor(private repositorioCompromissos: IRepositorio<Compromisso>, id?:string) {
@@ -31,35 +31,35 @@ export class CompromissoPaginaCadastro implements IPaginaHTML, IPaginaFormulario
    private obterDadosFormulario(): Compromisso {
       const assunto = this.txtAssunto.value; 
       const local = this.txtLocal.value;
+      const contato = this.selectContato.value;
       const data = this.txtData.value;
       const hora = this.txtHora.value ;
-      const contato = this.selectContato.value;
 
       let compromisso = null;
 
       if (!this.idSelecionado)
-         compromisso = new Compromisso(assunto, local, data, hora, contato);
+         compromisso = new Compromisso(assunto, local, contato, data, hora);
       else
-      compromisso = new Compromisso(assunto, local, data, hora, contato, this.idSelecionado);
+      compromisso = new Compromisso(assunto, local, contato, data, hora, this.idSelecionado);
 
       return compromisso;
    }
 
-   private preencherFormulario(CompromissoSelecionado: Compromisso){
-      this.txtAssunto.value = CompromissoSelecionado.assunto;
-      this.txtLocal.value = CompromissoSelecionado.local;
-      this.txtData.value = CompromissoSelecionado.data;
-      this.txtHora.value = CompromissoSelecionado.hora;
-      this.selectContato.value = CompromissoSelecionado.contato;
+   private preencherFormulario(compromissoSelecionado: Compromisso){
+      this.txtAssunto.value = compromissoSelecionado.assunto;
+      this.txtLocal.value = compromissoSelecionado.local;
+      this.selectContato.value = compromissoSelecionado.contato;
+      this.txtData.value = compromissoSelecionado.data;
+      this.txtHora.value = compromissoSelecionado.hora;
    }
 
    configurarElementos(): void {
       this.txtAssunto = document.getElementById("txtAssunto") as HTMLInputElement;
       this.txtLocal = document.getElementById("txtLocal") as HTMLInputElement;
+      this.selectContato = document.getElementById("contatos") as HTMLSelectElement;
       this.txtData = document.getElementById("txtData") as HTMLInputElement;
       this.txtHora = document.getElementById("txtHora") as HTMLInputElement;
       this.btnSalvar = document.getElementById("btnSalvar") as HTMLButtonElement;
-      this.selectContato = document.getElementById("contatos") as HTMLSelectElement;
 
       //adiciona os contatos no select
       const contato = new ContatoRepositoryLocalStorage().selecionarTodos();
