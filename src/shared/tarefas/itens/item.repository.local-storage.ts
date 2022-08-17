@@ -5,7 +5,7 @@ import { IRepositorioSerializavel } from "../../interfaces/repositorio-serializa
 export class ItemRepositoryLocalStorage implements IRepositorio<Item>, IRepositorioSerializavel 
 {
    private readonly localStorage: Storage;
-   private readonly items: Item[];
+   private itens: Item[];
 
    /**
     *
@@ -13,29 +13,39 @@ export class ItemRepositoryLocalStorage implements IRepositorio<Item>, IReposito
    constructor() {
 
       this.localStorage = window.localStorage; 
-      this.items = this.selecionarTodos();
+      this.itens = this.selecionarTodos();
    }
 
    editar(id: string, registroEditado: Item): void {
-      throw new Error("Method not implemented.");
+      const indexSelecionado = this.itens.findIndex(x => x.id === id);
+
+      this.itens[indexSelecionado] = {
+         id: id,
+         descricao: registroEditado.descricao,
+         tarefa: registroEditado.tarefa,
+         status: registroEditado.status,
+      };
+
+      this.gravar();
    }
    
    selecionarPorId(id: string): Item | undefined {
-      throw new Error("Method not implemented.");
+      return this.itens.find(x => x.id === id);
    }
 
    public gravar(): void {
-      const dadosJson = JSON.stringify(this.items);
+      const dadosJson = JSON.stringify(this.itens);
       this.localStorage.setItem("items", dadosJson);
    }
 
    public inserir(dados: Item): void {
-      this.items.push(dados);
+      this.itens.push(dados);
       this.gravar();
    }
 
    public excluir(id: string): void {
-      throw new Error("Method not implemented.");
+      this.itens = this.itens.filter(x => x.id !== id); 
+      this.gravar();
    }
 
    public selecionarTodos(): Item[] {

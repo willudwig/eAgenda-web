@@ -9,8 +9,13 @@ export class Item extends EntidadeBase
    /**
     *
     */
-   constructor(descrcicao: string, tarefa: string) {
+   constructor(descrcicao: string, tarefa: string,  id?: string) {
       super();
+
+      if(id) {
+         this.id = id;
+      }
+      
       this.descricao = descrcicao;
       this.tarefa = tarefa;
       this.status = "Aberto";

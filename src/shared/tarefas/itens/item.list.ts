@@ -22,15 +22,42 @@ class ItemPageList implements IPaginaHTML, IPageList {
 
          const novaLinha = corpoTabela.insertRow();
 
-         Object.values(item).forEach(
-
-            (valor: any) => {
-
+         Object.values(item).forEach((valor: any) => {
                const novacelula = novaLinha.insertCell();
                novacelula.innerText = valor;
             }
          );
+
+         this.criarBotaoEditar(novaLinha, item);
+         this.criarBotaoExcluir(novaLinha, item);
       });
+   }
+
+   private criarBotaoEditar(novaLinha: HTMLTableRowElement, item: Item) {
+      const celulaBotoes = novaLinha.insertCell();
+      const btnEditar = document.createElement("a");
+      btnEditar.innerText = "Editar";
+      btnEditar.className = "btn btn-outline-success";
+
+      btnEditar.addEventListener("click", () => {
+         window.location.href = `item.create.html?id=${item.id}`;
+      });
+
+      celulaBotoes.appendChild(btnEditar);
+   }
+
+   private criarBotaoExcluir(novaLinha: HTMLTableRowElement, item: Item) {
+      const celulaBotoes = novaLinha.insertCell();
+      const btnExcluir = document.createElement("a");
+      btnExcluir.innerText = "Excluir";
+      btnExcluir.className = "btn btn-outline-info";
+
+      btnExcluir.addEventListener("click", () => {
+         this.repositrorioItens.excluir(item.id);
+         window.location.reload();
+      });
+
+      celulaBotoes.appendChild(btnExcluir);
    }
 
    configurarElementos(): void {
