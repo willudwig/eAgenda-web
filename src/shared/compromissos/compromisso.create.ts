@@ -3,6 +3,7 @@ import { IPaginaHTML } from "../interfaces/pagina.html.interface.js";
 import { IRepositorio } from "../interfaces/repositorio.interface.js";
 import { IPaginaFormulario } from "../interfaces/pagina.ceate.interface.js";
 import { CompromissoRepositoryLocalStorage } from "./compromisso.repository.local-storage.js";
+import { ContatoRepositoryLocalStorage } from "../contatos/contato.repository.local-storage.js";
 
 export class CompromissoPaginaCadastro implements IPaginaHTML, IPaginaFormulario
 {
@@ -58,13 +59,13 @@ export class CompromissoPaginaCadastro implements IPaginaHTML, IPaginaFormulario
       this.txtData = document.getElementById("txtData") as HTMLInputElement;
       this.txtHora = document.getElementById("txtHora") as HTMLInputElement;
       this.btnSalvar = document.getElementById("btnSalvar") as HTMLButtonElement;
-      this.selectContato = document.getElementById("Compromissos") as HTMLSelectElement;
+      this.selectContato = document.getElementById("contatos") as HTMLSelectElement;
 
-      const Compromisso = new CompromissoRepositoryLocalStorage().selecionarTodos();
-      
-      Compromisso.forEach( (x) => {
+      //adiciona os contatos no select
+      const contato = new ContatoRepositoryLocalStorage().selecionarTodos();
+      contato.forEach( (x) => {
          const option = document.createElement("option");
-         option.innerText = x.assunto;
+         option.innerText = x.nome;
          this.selectContato.appendChild(option);
       });
       

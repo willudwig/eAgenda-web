@@ -1,5 +1,6 @@
 import { Compromisso } from "./compromisso.model.js";
 import { CompromissoRepositoryLocalStorage } from "./compromisso.repository.local-storage.js";
+import { ContatoRepositoryLocalStorage } from "../contatos/contato.repository.local-storage.js";
 export class CompromissoPaginaCadastro {
     constructor(repositorioCompromissos, id) {
         this.repositorioCompromissos = repositorioCompromissos;
@@ -38,11 +39,12 @@ export class CompromissoPaginaCadastro {
         this.txtData = document.getElementById("txtData");
         this.txtHora = document.getElementById("txtHora");
         this.btnSalvar = document.getElementById("btnSalvar");
-        this.selectContato = document.getElementById("Compromissos");
-        const Compromisso = new CompromissoRepositoryLocalStorage().selecionarTodos();
-        Compromisso.forEach((x) => {
+        this.selectContato = document.getElementById("contatos");
+        //adiciona os contatos no select
+        const contato = new ContatoRepositoryLocalStorage().selecionarTodos();
+        contato.forEach((x) => {
             const option = document.createElement("option");
-            option.innerText = x.assunto;
+            option.innerText = x.nome;
             this.selectContato.appendChild(option);
         });
         this.btnSalvar.addEventListener("click", (_evt) => this.gravarRegistros());
