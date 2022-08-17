@@ -3,8 +3,11 @@ export class Compromisso extends EntidadeBase {
     /**
      *
      */
-    constructor(assunto, local, contato, data, hora) {
+    constructor(assunto, local, contato, data, hora, id) {
         super();
+        if (id) {
+            this.id = id;
+        }
         this.assunto = assunto;
         this.local = local;
         this.contato = contato;

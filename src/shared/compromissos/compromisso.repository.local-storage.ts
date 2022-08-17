@@ -5,7 +5,7 @@ import { Compromisso } from "./compromisso.model.js";
 export class CompromissoRepositoryLocalStorage implements IRepositorio<Compromisso>, IRepositorioSerializavel 
 {
    private readonly localStorage: Storage;
-   private readonly compromissos: Compromisso[];
+   private compromissos: Compromisso[];
 
    /**
     *
@@ -14,11 +14,24 @@ export class CompromissoRepositoryLocalStorage implements IRepositorio<Compromis
       this.localStorage = window.localStorage; 
       this.compromissos = this.selecionarTodos();
    }
+
    editar(id: string, registroEditado: Compromisso): void {
-      throw new Error("Method not implemented.");
+      const indexSelecionado = this.compromissos.findIndex(x => x.id === id);
+
+      this.compromissos[indexSelecionado] = {
+         id: id,
+         assunto: registroEditado.assunto,
+         contato: registroEditado.contato,
+         data: registroEditado.data,
+         hora: registroEditado.hora,
+         local: registroEditado.local
+      };
+
+      this.gravar();
    }
+
    selecionarPorId(id: string): Compromisso | undefined {
-      throw new Error("Method not implemented.");
+      return this.compromissos.find(x => x.id === id);
    }
 
    public gravar(): void {
@@ -31,8 +44,9 @@ export class CompromissoRepositoryLocalStorage implements IRepositorio<Compromis
       this.gravar();
    }
 
-   public excluir(): void {
-      throw new Error("Method not implemented.");
+   public excluir(id: string): void {
+      this.compromissos = this.compromissos.filter(x => x.id !== id); 
+      this.gravar();
    }
 
    public selecionarTodos(): Compromisso[] {

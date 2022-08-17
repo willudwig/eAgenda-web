@@ -19,7 +19,6 @@ class ContatoPageList implements IPaginaHTML, IPageList {
       let corpoTabela = this.tabela.getElementsByTagName("tbody")[0];
 
       contatos.forEach(contato => {
-
          const novaLinha = corpoTabela.insertRow();
 
          Object.values(contato).forEach((valor: any) => {

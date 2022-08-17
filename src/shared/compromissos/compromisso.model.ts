@@ -11,8 +11,13 @@ export class Compromisso extends EntidadeBase
    /**
     *
     */
-   constructor(assunto: string, local: string, contato: string, data: string, hora: string) {
+   constructor(assunto: string, local: string, contato: string, data: string, hora: string, id?:string) {
       super();
+
+      if(id) {
+         this.id = id;
+      }
+      
       this.assunto = assunto;
       this.local = local;
       this.contato = contato;

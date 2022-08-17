@@ -7,10 +7,19 @@ export class CompromissoRepositoryLocalStorage {
         this.compromissos = this.selecionarTodos();
     }
     editar(id, registroEditado) {
-        throw new Error("Method not implemented.");
+        const indexSelecionado = this.compromissos.findIndex(x => x.id === id);
+        this.compromissos[indexSelecionado] = {
+            id: id,
+            assunto: registroEditado.assunto,
+            contato: registroEditado.contato,
+            data: registroEditado.data,
+            hora: registroEditado.hora,
+            local: registroEditado.local
+        };
+        this.gravar();
     }
     selecionarPorId(id) {
-        throw new Error("Method not implemented.");
+        return this.compromissos.find(x => x.id === id);
     }
     gravar() {
         const dadosJson = JSON.stringify(this.compromissos);
@@ -20,8 +29,9 @@ export class CompromissoRepositoryLocalStorage {
         this.compromissos.push(dados);
         this.gravar();
     }
-    excluir() {
-        throw new Error("Method not implemented.");
+    excluir(id) {
+        this.compromissos = this.compromissos.filter(x => x.id !== id);
+        this.gravar();
     }
     selecionarTodos() {
         const dadosJson = this.localStorage.getItem("compromissos");

@@ -3,7 +3,6 @@ import { IPaginaHTML } from "../interfaces/pagina.html.interface.js";
 import { IRepositorio } from "../interfaces/repositorio.interface.js";
 import { IPaginaFormulario } from "../interfaces/pagina.ceate.interface.js";
 import { CompromissoRepositoryLocalStorage } from "./compromisso.repository.local-storage.js";
-import { ContatoRepositoryLocalStorage } from "../contatos/contato.repository.local-storage.js";
 
 export class CompromissoPaginaCadastro implements IPaginaHTML, IPaginaFormulario
 {
@@ -13,9 +12,44 @@ export class CompromissoPaginaCadastro implements IPaginaHTML, IPaginaFormulario
    private txtHora: HTMLInputElement;
    private btnSalvar: HTMLButtonElement;
    private selectContato: HTMLSelectElement;
+   private idSelecionado: string;
 
-   constructor(private repositorioCompromissos: IRepositorio<Compromisso>) {
+   constructor(private repositorioCompromissos: IRepositorio<Compromisso>, id?:string) {
       this.configurarElementos();
+
+      if(id) {
+         this.idSelecionado = id;
+         const compromissoSelecionado = this.repositorioCompromissos.selecionarPorId(id);
+
+         if (compromissoSelecionado) {
+            this.preencherFormulario(compromissoSelecionado);
+         }
+      }
+   }
+
+   private obterDadosFormulario(): Compromisso {
+      const assunto = this.txtAssunto.value; 
+      const local = this.txtLocal.value;
+      const data = this.txtData.value;
+      const hora = this.txtHora.value ;
+      const contato = this.selectContato.value;
+
+      let compromisso = null;
+
+      if (!this.idSelecionado)
+         compromisso = new Compromisso(assunto, local, data, hora, contato);
+      else
+      compromisso = new Compromisso(assunto, local, data, hora, contato, this.idSelecionado);
+
+      return compromisso;
+   }
+
+   private preencherFormulario(CompromissoSelecionado: Compromisso){
+      this.txtAssunto.value = CompromissoSelecionado.assunto;
+      this.txtLocal.value = CompromissoSelecionado.local;
+      this.txtData.value = CompromissoSelecionado.data;
+      this.txtHora.value = CompromissoSelecionado.hora;
+      this.selectContato.value = CompromissoSelecionado.contato;
    }
 
    configurarElementos(): void {
@@ -24,13 +58,13 @@ export class CompromissoPaginaCadastro implements IPaginaHTML, IPaginaFormulario
       this.txtData = document.getElementById("txtData") as HTMLInputElement;
       this.txtHora = document.getElementById("txtHora") as HTMLInputElement;
       this.btnSalvar = document.getElementById("btnSalvar") as HTMLButtonElement;
-      this.selectContato = document.getElementById("contatos") as HTMLSelectElement;
+      this.selectContato = document.getElementById("Compromissos") as HTMLSelectElement;
 
-      const contato = new ContatoRepositoryLocalStorage().selecionarTodos();
+      const Compromisso = new CompromissoRepositoryLocalStorage().selecionarTodos();
       
-      contato.forEach( (x) => {
+      Compromisso.forEach( (x) => {
          const option = document.createElement("option");
-         option.innerText = x.nome;
+         option.innerText = x.assunto;
          this.selectContato.appendChild(option);
       });
       
@@ -38,16 +72,19 @@ export class CompromissoPaginaCadastro implements IPaginaHTML, IPaginaFormulario
    }
 
    gravarRegistros(): void {
-      const novoCompromisso = new Compromisso(this.txtAssunto.value, 
-                                      this.txtLocal.value,
-                                      this.selectContato.value,
-                                      this.txtData.value,
-                                      this.txtHora.value);
+      const compromisso = this.obterDadosFormulario();
 
-      this.repositorioCompromissos.inserir(novoCompromisso);
+      if(!this.idSelecionado)
+         this.repositorioCompromissos.inserir(compromisso);
+      else
+         this.repositorioCompromissos.editar(compromisso.id, compromisso);
+
       window.location.href = "compromisso.list.html";
    }
    
 }
 
-new CompromissoPaginaCadastro(new CompromissoRepositoryLocalStorage());
+const params = new URLSearchParams(window.location.search); 
+const id = params.get("id") as string;
+
+new CompromissoPaginaCadastro(new CompromissoRepositoryLocalStorage(), id);

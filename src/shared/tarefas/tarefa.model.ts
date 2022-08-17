@@ -1,5 +1,4 @@
 import { EntidadeBase } from "../entidade.model.js";
-import { Guid } from "../guid.model.js";
 import {Prioridade} from "./prioridade.enum.js";
 
 export class Tarefa extends EntidadeBase  

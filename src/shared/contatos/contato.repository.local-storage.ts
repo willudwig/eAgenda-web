@@ -11,7 +11,6 @@ export class ContatoRepositoryLocalStorage implements IRepositorio<Contato>, IRe
     *
     */
    constructor() {
-
       this.localStorage = window.localStorage; 
       this.contatos = this.selecionarTodos();
    }
