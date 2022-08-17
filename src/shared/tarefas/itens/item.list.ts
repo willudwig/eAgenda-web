@@ -46,7 +46,8 @@ class ItemPageList implements IPaginaHTML, IPageList {
       check.addEventListener("click", () => {
          this.alternarStatusCheckBox(novaLinha, check, item);
       });
-
+      
+      this.verificarCheck(check, item);
       celulaBotoes.appendChild(check);
    }
 
@@ -75,6 +76,13 @@ class ItemPageList implements IPaginaHTML, IPageList {
       });
 
       celulaBotoes.appendChild(btnExcluir);
+   }
+
+   verificarCheck(checkbox: HTMLInputElement, item: Item) {
+      if(item.status == "Concluído")
+         checkbox.checked = true;
+      else
+         checkbox.checked = false;
    }
 
    private alternarStatusCheckBox(novaLinha: HTMLTableRowElement, check: HTMLInputElement, item: Item) {

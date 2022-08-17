@@ -29,6 +29,7 @@ class ItemPageList {
         check.addEventListener("click", () => {
             this.alternarStatusCheckBox(novaLinha, check, item);
         });
+        this.verificarCheck(check, item);
         celulaBotoes.appendChild(check);
     }
     criarBotaoEditar(novaLinha, item) {
@@ -51,6 +52,12 @@ class ItemPageList {
             window.location.reload();
         });
         celulaBotoes.appendChild(btnExcluir);
+    }
+    verificarCheck(checkbox, item) {
+        if (item.status == "Concluído")
+            checkbox.checked = true;
+        else
+            checkbox.checked = false;
     }
     alternarStatusCheckBox(novaLinha, check, item) {
         switch (this.clicado) {
