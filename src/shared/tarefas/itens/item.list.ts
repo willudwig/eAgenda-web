@@ -15,7 +15,6 @@ class ItemPageList implements IPaginaHTML, IPageList {
 
    atualizarTabela(): void {
       const itens = this.repositrorioItens.selecionarTodos();
-
       let corpoTabela = this.tabela.getElementsByTagName("tbody")[0];
 
       itens.forEach(item => {

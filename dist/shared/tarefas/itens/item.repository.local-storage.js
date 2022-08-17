@@ -4,24 +4,32 @@ export class ItemRepositoryLocalStorage {
      */
     constructor() {
         this.localStorage = window.localStorage;
-        this.items = this.selecionarTodos();
+        this.itens = this.selecionarTodos();
     }
     editar(id, registroEditado) {
-        throw new Error("Method not implemented.");
+        const indexSelecionado = this.itens.findIndex(x => x.id === id);
+        this.itens[indexSelecionado] = {
+            id: id,
+            descricao: registroEditado.descricao,
+            tarefa: registroEditado.tarefa,
+            status: registroEditado.status,
+        };
+        this.gravar();
     }
     selecionarPorId(id) {
-        throw new Error("Method not implemented.");
+        return this.itens.find(x => x.id === id);
     }
     gravar() {
-        const dadosJson = JSON.stringify(this.items);
+        const dadosJson = JSON.stringify(this.itens);
         this.localStorage.setItem("items", dadosJson);
     }
     inserir(dados) {
-        this.items.push(dados);
+        this.itens.push(dados);
         this.gravar();
     }
     excluir(id) {
-        throw new Error("Method not implemented.");
+        this.itens = this.itens.filter(x => x.id !== id);
+        this.gravar();
     }
     selecionarTodos() {
         const dadosJson = this.localStorage.getItem("items");

@@ -71,7 +71,7 @@ export class ItemPaginaCadastro implements IPaginaHTML, IPaginaFormulario
       else
          this.repositorioItens.editar(item.id, item);
 
-      window.location.href = "tarefa.list.html";
+      window.location.href = "item.list.html";
    }
 }
 
