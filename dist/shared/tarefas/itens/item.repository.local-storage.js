@@ -23,8 +23,8 @@ export class ItemRepositoryLocalStorage {
         const dadosJson = JSON.stringify(this.itens);
         this.localStorage.setItem("items", dadosJson);
     }
-    inserir(dados) {
-        this.itens.push(dados);
+    inserir(registro) {
+        this.itens.push(registro);
         this.gravar();
     }
     excluir(id) {

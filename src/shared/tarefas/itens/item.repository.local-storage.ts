@@ -38,8 +38,8 @@ export class ItemRepositoryLocalStorage implements IRepositorio<Item>, IReposito
       this.localStorage.setItem("items", dadosJson);
    }
 
-   public inserir(dados: Item): void {
-      this.itens.push(dados);
+   public inserir(registro: Item): void {
+      this.itens.push(registro);
       this.gravar();
    }
 

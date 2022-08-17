@@ -4,6 +4,7 @@ class ItemPageList {
         this.repositrorioItens = repositrorioItens;
         this.configurarElementos();
         this.atualizarTabela();
+        this.clicado = 0;
     }
     atualizarTabela() {
         const itens = this.repositrorioItens.selecionarTodos();
@@ -14,9 +15,21 @@ class ItemPageList {
                 const novacelula = novaLinha.insertCell();
                 novacelula.innerText = valor;
             });
+            this.criarCheckBox(novaLinha, item);
             this.criarBotaoEditar(novaLinha, item);
             this.criarBotaoExcluir(novaLinha, item);
         });
+    }
+    criarCheckBox(novaLinha, item) {
+        const celulaBotoes = novaLinha.insertCell();
+        const check = document.createElement("input");
+        check.type = "checkbox";
+        check.name = "check";
+        check.className = "checkbox";
+        check.addEventListener("click", () => {
+            this.alternarStatusCheckBox(novaLinha, check, item);
+        });
+        celulaBotoes.appendChild(check);
     }
     criarBotaoEditar(novaLinha, item) {
         const celulaBotoes = novaLinha.insertCell();
@@ -38,6 +51,23 @@ class ItemPageList {
             window.location.reload();
         });
         celulaBotoes.appendChild(btnExcluir);
+    }
+    alternarStatusCheckBox(novaLinha, check, item) {
+        switch (this.clicado) {
+            case 0:
+                check.checked = true;
+                item.status = "Concluído";
+                this.clicado = 1;
+                break;
+            case 1:
+                check.checked = false;
+                item.status = "Aberto";
+                this.clicado = 0;
+                break;
+        }
+        if (item.status !== undefined)
+            novaLinha.cells[3].innerText = item.status;
+        this.repositrorioItens.editar(item.id, item);
     }
     configurarElementos() {
         this.tabela = document.getElementById("tabela");
