@@ -8,9 +8,10 @@ export class Tarefa extends EntidadeBase {
         if (id) {
             this.id = id;
         }
+        const data = new Date();
         this.titulo = titulo;
-        this.dataCriacao = new Date();
-        this.dataConclusao = new Date();
+        this.dataCriacao = data.getDate() + " / " + (data.getMonth() + 1) + " / " + data.getFullYear();
+        this.dataConclusao = "-";
         this.prioridade = prioridade;
         this.porcentagem = porcentagem;
     }

@@ -12,6 +12,7 @@ class TarefaPageList {
         tarefas.forEach(tarefa => {
             const novaLinha = corpoTabela.insertRow();
             tarefa.porcentagem = this.calculrarPorcentagem(tarefa.titulo);
+            tarefa.dataConclusao = this.verficarDataConclusao(tarefa.porcentagem);
             Object.values(tarefa).forEach((valor) => {
                 const novacelula = novaLinha.insertCell();
                 novacelula.innerText = valor;
@@ -64,6 +65,13 @@ class TarefaPageList {
         });
         porcentagem = (porcentagem * concluidos) / itensDestaTarefa.length;
         return porcentagem.toFixed(2).toString() + "%";
+    }
+    verficarDataConclusao(porcentagem) {
+        if (porcentagem === "100.00%") {
+            const data = new Date();
+            return data.getDate() + " / " + (data.getMonth() + 1) + " / " + data.getFullYear();
+        }
+        return "-";
     }
 }
 new TarefaPageList(new TarefaRepositoryLocalStorage());

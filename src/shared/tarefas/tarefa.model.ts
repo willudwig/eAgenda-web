@@ -4,8 +4,8 @@ import {Prioridade} from "./prioridade.enum.js";
 export class Tarefa extends EntidadeBase  
 {
    public titulo: string;
-   public dataCriacao: Date;
-   public dataConclusao?: Date;
+   public dataCriacao: string;
+   public dataConclusao?: string;
    public prioridade: Prioridade;
    public porcentagem: string;
 
@@ -19,9 +19,10 @@ export class Tarefa extends EntidadeBase
          this.id = id;
       }
 
+      const data = new Date();
       this.titulo = titulo;
-      this.dataCriacao = new Date();
-      this.dataConclusao = new Date();
+      this.dataCriacao = data.getDate() + " / " + (data.getMonth() + 1) + " / " + data.getFullYear();
+      this.dataConclusao = "-";
       this.prioridade = prioridade;
       this.porcentagem = porcentagem;
    }
