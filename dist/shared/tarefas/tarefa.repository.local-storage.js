@@ -13,7 +13,8 @@ export class TarefaRepositoryLocalStorage {
             titulo: registroEditado.titulo,
             dataCriacao: registroEditado.dataCriacao,
             dataConclusao: registroEditado.dataConclusao,
-            prioridade: registroEditado.prioridade
+            prioridade: registroEditado.prioridade,
+            porcentagem: registroEditado.porcentagem
         };
         this.gravar();
     }

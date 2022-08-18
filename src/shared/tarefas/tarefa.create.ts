@@ -4,6 +4,8 @@ import { IPaginaHTML } from "../interfaces/pagina.html.interface.js";
 import { IRepositorio } from "../interfaces/repositorio.interface.js";
 import { IPaginaFormulario } from "../interfaces/pagina.ceate.interface.js";
 import { TarefaRepositoryLocalStorage } from "./tarefa.repository.local-storage.js";
+import { ItemRepositoryLocalStorage } from "./itens/item.repository.local-storage.js";
+import { Item } from "./itens/item.model.js";
 
 export class TarefaPaginaCadastro implements IPaginaHTML, IPaginaFormulario
 {
@@ -48,13 +50,14 @@ export class TarefaPaginaCadastro implements IPaginaHTML, IPaginaFormulario
    private obterDadosFormulario(): Tarefa {
       const titulo = this.txtTitulo.value;
       const prioridade = this.obterPrioridadeSelecionada();
+      const porcentagem = this.calculrarPorcentagem(titulo);
 
       let tarefa = null;
 
       if (!this.idSelecionado)
-         tarefa = new Tarefa(titulo, prioridade);
+         tarefa = new Tarefa(titulo, prioridade, porcentagem);
       else
-         tarefa = new Tarefa(titulo, prioridade, this.idSelecionado);
+         tarefa = new Tarefa(titulo, prioridade, porcentagem, this.idSelecionado);
 
       return tarefa;
    }
@@ -81,7 +84,35 @@ export class TarefaPaginaCadastro implements IPaginaHTML, IPaginaFormulario
 
       window.location.href = "tarefa.list.html";
    }
-   
+
+   calculrarPorcentagem(tituloTarefa: string): string {
+      let porcentagem = 100; 
+      const itens = new ItemRepositoryLocalStorage().selecionarTodos();
+      const itensDestaTarefa: Item[] = []; 
+      itens.forEach( x => {
+         if(x.tarefa === tituloTarefa)
+            itensDestaTarefa.push(x);
+      });
+
+      if(itensDestaTarefa.length === 0)
+         return "0%";
+      
+      let concluidos = 0;
+      let abertos = 0;
+      
+      itensDestaTarefa.forEach(x => {
+
+         if(x.status === "Concluído")
+            concluidos++;
+         else
+            abertos++;
+      });
+
+      porcentagem = (porcentagem * concluidos) / itensDestaTarefa.length;
+
+      return porcentagem.toFixed(2).toString() + "%";
+   }
+
 }
 
 const params = new URLSearchParams(window.location.search); 

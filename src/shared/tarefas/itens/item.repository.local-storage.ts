@@ -49,7 +49,6 @@ export class ItemRepositoryLocalStorage implements IRepositorio<Item>, IReposito
    }
 
    public selecionarTodos(): Item[] {
-
       const dadosJson = this.localStorage.getItem("items");
 
       if( !dadosJson )

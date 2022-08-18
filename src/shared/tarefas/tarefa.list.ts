@@ -3,6 +3,8 @@ import { IPageList } from "../interfaces/pagina.list.inteface.js";
 import { IPaginaHTML } from "../interfaces/pagina.html.interface.js";
 import { IRepositorio } from "../interfaces/repositorio.interface.js";
 import { TarefaRepositoryLocalStorage } from "./tarefa.repository.local-storage.js";
+import { ItemRepositoryLocalStorage } from "./itens/item.repository.local-storage.js";
+import { Item } from "./itens/item.model.js";
 
 class TarefaPageList implements IPaginaHTML, IPageList {
   
@@ -22,13 +24,15 @@ class TarefaPageList implements IPaginaHTML, IPageList {
       tarefas.forEach(tarefa => {
 
          const novaLinha = corpoTabela.insertRow();
+         
+         tarefa.porcentagem = this.calculrarPorcentagem(tarefa.titulo);
 
          Object.values(tarefa).forEach( (valor: any) => {
                const novacelula = novaLinha.insertCell();
                novacelula.innerText = valor;
             }
          );
-
+         
          this.criarBotaoEditar(novaLinha, tarefa);
          this.criarBotaoExcluir(novaLinha, tarefa);
       });
@@ -63,6 +67,34 @@ class TarefaPageList implements IPaginaHTML, IPageList {
 
    configurarElementos(): void {
       this.tabela = document.getElementById("tabela") as HTMLTableElement;
+   }
+
+   calculrarPorcentagem(tituloTarefa: string): string {
+      let porcentagem = 100; 
+      const itens = new ItemRepositoryLocalStorage().selecionarTodos();
+      const itensDestaTarefa: Item[] = []; 
+      itens.forEach( x => {
+         if(x.tarefa === tituloTarefa)
+            itensDestaTarefa.push(x);
+      });
+
+      if(itensDestaTarefa.length === 0)
+         return "0%";
+      
+      let concluidos = 0;
+      let abertos = 0;
+      
+      itensDestaTarefa.forEach(x => {
+
+         if(x.status === "Concluído")
+            concluidos++;
+         else
+            abertos++;
+      });
+
+      porcentagem = (porcentagem * concluidos) / itensDestaTarefa.length;
+
+      return porcentagem.toFixed(2).toString() + "%";
    }
 
 }

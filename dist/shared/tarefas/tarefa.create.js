@@ -1,6 +1,7 @@
 import { Tarefa } from "./tarefa.model.js";
 import { Prioridade } from "./prioridade.enum.js";
 import { TarefaRepositoryLocalStorage } from "./tarefa.repository.local-storage.js";
+import { ItemRepositoryLocalStorage } from "./itens/item.repository.local-storage.js";
 export class TarefaPaginaCadastro {
     constructor(repositorioTarefas, id) {
         this.repositorioTarefas = repositorioTarefas;
@@ -31,11 +32,12 @@ export class TarefaPaginaCadastro {
     obterDadosFormulario() {
         const titulo = this.txtTitulo.value;
         const prioridade = this.obterPrioridadeSelecionada();
+        const porcentagem = this.calculrarPorcentagem(titulo);
         let tarefa = null;
         if (!this.idSelecionado)
-            tarefa = new Tarefa(titulo, prioridade);
+            tarefa = new Tarefa(titulo, prioridade, porcentagem);
         else
-            tarefa = new Tarefa(titulo, prioridade, this.idSelecionado);
+            tarefa = new Tarefa(titulo, prioridade, porcentagem, this.idSelecionado);
         return tarefa;
     }
     obterPrioridadeSelecionada() {
@@ -54,6 +56,27 @@ export class TarefaPaginaCadastro {
         else
             this.repositorioTarefas.editar(tarefa.id, tarefa);
         window.location.href = "tarefa.list.html";
+    }
+    calculrarPorcentagem(tituloTarefa) {
+        let porcentagem = 100;
+        const itens = new ItemRepositoryLocalStorage().selecionarTodos();
+        const itensDestaTarefa = [];
+        itens.forEach(x => {
+            if (x.tarefa === tituloTarefa)
+                itensDestaTarefa.push(x);
+        });
+        if (itensDestaTarefa.length === 0)
+            return "0%";
+        let concluidos = 0;
+        let abertos = 0;
+        itensDestaTarefa.forEach(x => {
+            if (x.status === "Concluído")
+                concluidos++;
+            else
+                abertos++;
+        });
+        porcentagem = (porcentagem * concluidos) / itensDestaTarefa.length;
+        return porcentagem.toFixed(2).toString() + "%";
     }
 }
 const params = new URLSearchParams(window.location.search);

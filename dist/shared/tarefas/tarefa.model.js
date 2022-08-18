@@ -3,7 +3,7 @@ export class Tarefa extends EntidadeBase {
     /**
      *
      */
-    constructor(titulo, prioridade, id) {
+    constructor(titulo, prioridade, porcentagem, id) {
         super();
         if (id) {
             this.id = id;
@@ -12,5 +12,6 @@ export class Tarefa extends EntidadeBase {
         this.dataCriacao = new Date();
         this.dataConclusao = new Date();
         this.prioridade = prioridade;
+        this.porcentagem = porcentagem;
     }
 }

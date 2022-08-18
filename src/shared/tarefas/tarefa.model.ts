@@ -7,11 +7,12 @@ export class Tarefa extends EntidadeBase
    public dataCriacao: Date;
    public dataConclusao?: Date;
    public prioridade: Prioridade;
+   public porcentagem: string;
 
    /**
     *
     */
-   constructor(titulo: string, prioridade: Prioridade, id?: string) {
+   constructor(titulo: string, prioridade: Prioridade, porcentagem: string, id?: string) {
       super();
 
       if(id) {
@@ -22,6 +23,7 @@ export class Tarefa extends EntidadeBase
       this.dataCriacao = new Date();
       this.dataConclusao = new Date();
       this.prioridade = prioridade;
+      this.porcentagem = porcentagem;
    }
 
 }
